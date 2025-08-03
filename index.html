@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda gorylover</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Boda Gorylover</h1>
+    </header>
+    <div id="intro">
+        <h2>
+            Hola Karely, sabemos que el día de tu boda es muy importante 
+            y queremos ayudarte a organizarlo de la mejor manera posible.
+        </h2>
+        <p>
+            Aquí podrás llevar un control de las familias invitadas.
+            Además, podrás ver el estado de sus confirmaciones,
+            así como algunos mensajes de ellos.
+        </p>
+    </div>
+    <main>
+        <section id="familias">
+            <h2>Lista de Familias Invitadas</h2>
+            <div id="resumen-familias">
+                <p>Total de familias: <span id="total-familias">0</span></p>
+                <p>Total de invitados: <span id="total-invitados">0</span></p>
+            </div>
+            <div id="lista-familias">
+            </div>
+            <form id="form-familia">
+                <h3>Agregar Nueva Familia</h3>
+                <input type="text" id="apellido-familia" placeholder="Apellido de la familia" required>
+                <input type="text" id="codigo-familia" placeholder="Código de familia (ej: FAM001)" required>
+                <input type="number" id="integrantes-familia" placeholder="Número de integrantes" min="1" required>
+                <textarea id="notas-familia" placeholder="Notas adicionales (opcional)" rows="3"></textarea>
+                <button type="submit">Agregar Familia</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Gestor de Bodas; Team Halcones</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
