@@ -67,15 +67,13 @@ class GestorFamilias {
                 Notas: notas || '',
                 Estado: 'Pendiente'
             };
-            
-            const response = await fetch('http://localhost:3000/api/families', {
+            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(familiaParaAPI)
             });
-            
             if (response.ok) {
                 console.log(`Familia ${apellido} agregada a la API exitosamente`);
             } else {
@@ -118,10 +116,9 @@ class GestorFamilias {
             
             // Eliminar de la API usando el código de familia
             try {
-                const response = await fetch(`http://localhost:3000/api/families/${familiaAEliminar.codigo}`, {
+                const response = await fetch(`https://boda-invitacion-digital-i3vs.vercel.app/api/families/${familiaAEliminar.codigo}`, {
                     method: 'DELETE'
                 });
-                
                 if (response.ok) {
                     console.log(`Familia ${familiaAEliminar.apellido} (código: ${familiaAEliminar.codigo}) eliminada de la API`);
                 } else {
@@ -360,11 +357,9 @@ class GestorFamilias {
 
     async cargarFamilias() {
         try {
-            const response = await fetch('http://localhost:3000/api/families/');
-
+            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families/');
             if (response.ok) {
                 const familiasAPI = await response.json();
-                
                 // Transformar los datos de la API al formato interno
                 const familiasTransformadas = familiasAPI.map((familia, index) => {
                     // Asegurar que el ID sea un número válido
@@ -375,7 +370,6 @@ class GestorFamilias {
                         // Si no hay código válido, usar timestamp + index para evitar duplicados
                         id = Date.now() + index;
                     }
-                    
                     return {
                         id: id,
                         apellido: familia.Apellido || '',
@@ -387,7 +381,6 @@ class GestorFamilias {
                         fechaCreacion: new Date().toISOString()
                     };
                 });
-                
                 localStorage.setItem('gestor-bodas-familias', JSON.stringify(familiasTransformadas));
                 return familiasTransformadas;
             } else {
@@ -415,16 +408,14 @@ class GestorFamilias {
                 Notas: familia.notas || '',
                 Estado: familia.estado || 'Pendiente'
             }));
-            
             // Intentar sincronizar con la API si está disponible
-            const response = await fetch('http://localhost:3000/api/families', {
+            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(familiasParaAPI)
             });
-            
             if (response.ok) {
                 console.log('Datos sincronizados con la API');
             } else {
