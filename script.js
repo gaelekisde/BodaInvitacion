@@ -1,3 +1,5 @@
+const API_BASE_URL = 'https://boda-invitacion-digital-fqxy.vercel.app';
+
 // Clase para manejar las familias
 class GestorFamilias {
     constructor() {
@@ -27,6 +29,7 @@ class GestorFamilias {
         const codigo = document.getElementById('codigo-familia').value.trim().toUpperCase();
         const integrantes = parseInt(document.getElementById('integrantes-familia').value);
         const notas = document.getElementById('notas-familia').value.trim();
+        const numero = document.getElementById('numero-familia').value.trim();
 
         // Validaciones
         if (!apellido || !codigo || !integrantes) {
@@ -48,6 +51,7 @@ class GestorFamilias {
             notas: notas || '',
             mensaje: '',
             estado: 'Pendiente',
+            numero: numero,
             fechaCreacion: new Date().toISOString()
         };
 
@@ -65,9 +69,10 @@ class GestorFamilias {
                 NumeroPersonas: integrantes,
                 Mensaje: '',
                 Notas: notas || '',
+                Numero: numero,
                 Estado: 'Pendiente'
             };
-            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families', {
+            const response = await fetch(`${API_BASE_URL}/api/families`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +121,7 @@ class GestorFamilias {
             
             // Eliminar de la API usando el código de familia
             try {
-                const response = await fetch(`https://boda-invitacion-digital-i3vs.vercel.app/api/families/${familiaAEliminar.codigo}`, {
+                const response = await fetch(`${API_BASE_URL}/api/families/${familiaAEliminar.codigo}`, {
                     method: 'DELETE'
                 });
                 if (response.ok) {
@@ -161,23 +166,32 @@ class GestorFamilias {
     }
 
     // Crear tarjeta de familia
+    contactarFamilia() {
+        //to do
+    }
+    
     crearTarjetaFamilia(familia) {
         const div = document.createElement('div');
         div.className = 'familia-card';
-        
         // Asegurar que el ID sea un número válido
         const idSeguro = familia.id || Date.now();
-        
+        // Limpiar el número y validar que tenga 10 dígitos
+        const numeroLimpio = (familia.numero || '').replace(/\D/g, '');
+        const tieneNumeroValido = numeroLimpio.length === 10;
         div.innerHTML = `
             <div class="familia-preview" onclick="gestor.toggleFamiliaDetails('${idSeguro}')">
                 <div class="familia-preview-content">
                     <div class="familia-apellido-preview">Familia ${familia.apellido}</div>
                     <div class="familia-codigo-preview">${familia.codigo}</div>
                     <div class="familia-integrantes-preview">${familia.integrantes} ${familia.integrantes === 1 ? 'persona' : 'personas'}</div>
+                    ${tieneNumeroValido ? `
+                    <a href="https://api.whatsapp.com/send?phone=52${numeroLimpio}&text=hola%20eres%20invitado%20a%20mi%20boda%20tu%20codigo%20es%20${familia.codigo}">
+                        <button class="btn-contactar" onclick="gestor.contactarFamilia()">Invitar</button>
+                    </a>
+                    ` : ''}
                 </div>
                 <div class="expand-icon">▼</div>
             </div>
-            
             <div class="familia-details-container" id="details-${idSeguro}" style="display: none;">
                 <button class="btn-eliminar" onclick="event.stopPropagation(); gestor.eliminarFamilia('${idSeguro}')" title="Eliminar familia">×</button>
                 
@@ -357,7 +371,7 @@ class GestorFamilias {
 
     async cargarFamilias() {
         try {
-            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families/');
+            const response = await fetch(`${API_BASE_URL}/api/families/`);
             if (response.ok) {
                 const familiasAPI = await response.json();
                 // Transformar los datos de la API al formato interno
@@ -378,6 +392,7 @@ class GestorFamilias {
                         notas: familia.Notas || '',
                         mensaje: familia.Mensaje || '',
                         estado: familia.Estado || 'Pendiente',
+                        numero: (familia.Numero !== undefined && familia.Numero !== null) ? String(familia.Numero) : '',
                         fechaCreacion: new Date().toISOString()
                     };
                 });
@@ -409,7 +424,7 @@ class GestorFamilias {
                 Estado: familia.estado || 'Pendiente'
             }));
             // Intentar sincronizar con la API si está disponible
-            const response = await fetch('https://boda-invitacion-digital-i3vs.vercel.app/api/families', {
+            const response = await fetch(`${API_BASE_URL}/api/families`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
