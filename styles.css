@@ -287,6 +287,61 @@ section h3 {
     box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
 }
 
+/* Botón de invitar/contactar */
+.btn-contactar {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 3px 12px rgba(37, 211, 102, 0.3);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-contactar::before {
+    content: "📱";
+    font-size: 0.9rem;
+}
+
+.btn-contactar:hover {
+    background: linear-gradient(135deg, #20BA5A, #0F7A6B);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.btn-contactar:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn-contactar::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-contactar:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
 /* Nuevos estilos para la información detallada */
 .familia-details {
     display: flex;
